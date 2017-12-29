@@ -1,0 +1,125 @@
+
+DROP TABLE IF EXISTS RESERVATION;
+DROP TABLE IF EXISTS VASKEBLOK;
+DROP TABLE IF EXISTS VASKETAVLE;
+DROP TABLE IF EXISTS LOGIN;
+DROP TABLE IF EXISTS BRUGERE;
+DROP TABLE IF EXISTS BOLIGFORENING;
+
+
+set foreign_key_checks=0;
+
+
+CREATE TABLE BOLIGFORENING (
+navn VARCHAR(50) NOT NULL,
+boligforening_id int NOT NULL AUTO_INCREMENT,
+antal_tavler int not NULL,
+PRIMARY KEY (boligforening_id)
+);
+
+CREATE TABLE VASKEBLOK (
+boligforening_id INT NOT NULL,
+vaske_blok_id int NOT NUll,
+starttid int NOT NULL,
+PRIMARY KEY (vaske_blok_ID, boligforening_id),
+FOREIGN KEY (boligforening_id) references BOLIGFORENING(boligforening_id)
+);
+
+CREATE TABLE BRUGERE(
+bruger_id int NOT NULL AUTO_INCREMENT,
+boligforening_id INT NOT NULL,
+fornavn VARCHAR(20) NOT NULL,
+mellemnavn VARCHAR(50),
+efternavn VARCHAR(50),
+antalNøgler int NOT NULL,
+brugte_noegler int,
+PRIMARY KEY (bruger_id),
+FOREIGN KEY (boligforening_id) references BOLIGFORENING(boligforening_id)
+);
+
+
+CREATE TABLE LOGIN(
+bruger_id int NOT NULL,
+password VARCHAR(30) NOT NULL,
+PRIMARY KEY (bruger_id),
+FOREIGN KEY (bruger_id) references BRUGERE(bruger_id)
+);
+
+CREATE TABLE VASKETAVLE(
+tavle_id int NOT NULL,
+boligforening_id int NOT NULL,
+antal_blokke_per_dag int NOT NULL,
+PRIMARY KEY (tavle_id, boligforening_id),
+FOREIGN KEY (boligforening_id) references BOLIGFORENING(boligforening_id)
+);
+
+
+CREATE TABLE RESERVATION (
+bruger_id int not null,
+reservation_id INT NOT NULL AUTO_INCREMENT,
+reservation_dato BIGINT NOT NULL,
+vaske_blok_id INT NOT NULL,
+boligforening_id int NOT NULL,
+tavle_id INT NOT NULL,
+tilfoejet_dato BIGINT NOT NULL,
+PRIMARY KEY( reservation_id),
+FOREIGN KEY (bruger_id) references BRUGERE(bruger_id), 
+FOREIGN KEY (boligforening_id) references BOLIGFORENING(boligforening_id),
+FOREIGN KEY (vaske_blok_id) references VASKEBLOK(vaske_blok_id),
+FOREIGN KEY (tavle_id) references VASKETAVLE(tavle_id));
+
+ALTER TABLE BOLIGFORENING AUTO_INCREMENT = 1;
+
+ALTER TABLE BRUGERE AUTO_INCREMENT = 1;
+
+insert into BOLIGFORENING(navn, antal_tavler) VALUES ('Kildevang',3);
+insert into VASKETAVLE(tavle_id,boligforening_id, antal_blokke_per_dag) VALUES(1,1,6);
+insert into VASKETAVLE(tavle_id,boligforening_id, antal_blokke_per_dag) VALUES(2,1,6);
+insert into VASKETAVLE(tavle_id,boligforening_id, antal_blokke_per_dag) VALUES(3,1,6);
+insert into VASKEBLOK()VALUES(1,1,8);
+insert into VASKEBLOK()VALUES(1,2,10);
+insert into VASKEBLOK()VALUES(1,3,12);
+insert into VASKEBLOK()VALUES(1,4,14);
+insert into VASKEBLOK()VALUES(1,5,16);
+insert into VASKEBLOK()VALUES(1,6,18);
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(1, 'Kim', null, 'Rasmussen', 1);
+insert into LOGIN()VALUES(1,'kim1hated');
+
+update LOGIN set password = '123qweasd' where bruger_id = 1;
+
+insert into BOLIGFORENING(navn, antal_tavler) VALUES ('Vestergårdsvej',2);
+insert into VASKETAVLE(tavle_id,boligforening_id, antal_blokke_per_dag) VALUES(1,2,13);
+insert into VASKETAVLE(tavle_id,boligforening_id, antal_blokke_per_dag) VALUES(2,2,13);
+insert into VASKEBLOK()VALUES(2,1,8);
+insert into VASKEBLOK()VALUES(2,2,9);
+insert into VASKEBLOK()VALUES(2,3,10);
+insert into VASKEBLOK()VALUES(2,4,11);
+insert into VASKEBLOK()VALUES(2,5,12);
+insert into VASKEBLOK()VALUES(2,6,13);
+insert into VASKEBLOK()VALUES(2,7,14);
+insert into VASKEBLOK()VALUES(2,8,15);
+insert into VASKEBLOK()VALUES(2,9,16);
+insert into VASKEBLOK()VALUES(2,10,17);
+insert into VASKEBLOK()VALUES(2,11,18);
+insert into VASKEBLOK()VALUES(2,12,19);
+insert into VASKEBLOK()VALUES(2,13,20);
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Benjamin', "Egert", 'Larsen', 3);
+insert into LOGIN()VALUES(2,'egert123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '1', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '2', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '3', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '4', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '5', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '6', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '7', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '8', 3);
+insert into LOGIN()VALUES(2,'test123');
+insert into BRUGERE(boligforening_id, fornavn, mellemnavn, efternavn, antalNøgler)VALUES(2, 'Test', "test", '9', 3);
+insert into LOGIN()VALUES(2,'test123');
